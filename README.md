@@ -1,18 +1,35 @@
-## Getting Started
+# Sistema de Vendas em Java (Domain-Driven Design - DDD)
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Projeto desenvolvido com o objetivo de aprender, modelar e aplicar na prática os conceitos fundamentais do **Domain-Driven Design (DDD)** utilizando **Java puro**, sem o auxílio de frameworks ou dependências externas.
 
-## Folder Structure
+---
 
-The workspace contains two folders by default, where:
+## 🎯 Objetivos do Projeto
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- Compreender a modelagem de domínio centrada nas regras de negócio.
+- Implementar o padrão de **Modelo de Domínio Rico** (evitando o modelo anêmico).
+- Aplicar a **Inversão de Dependência (DIP)** para desacoplar a camada de domínio da infraestrutura de dados.
+- Estruturar uma arquitetura em camadas clara e modular (`Domain`, `Application` e `Infrastructure`).
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+---
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## 🏗️ Conceitos do DDD Aplicados
 
-## Dependency Management
+- **Linguagem Ubíqua:** Métodos e classes com nomes orientados ao negócio (`debitarEstoque`, `adicionarItem`, `pagar`).
+- **Entidades:** Classes com identidade própria (`UUID`) e validações de invariantes diretamente nos construtores (`Cliente` e `Produto`).
+- **Agregados e Raiz do Agregado:** O `Pedido` atua como a raiz do agregado, orquestrando seus itens (`ItemPedido`), garantindo a consistência do valor total e protegendo o estado da transação.
+- **Repository Pattern:** Contratos de persistência isolados em interfaces (`domain.repository`) com implementações simuladas em memória (`infrastructure`).
+- **Use Cases / Application Services:** A classe `RealizarVendas` orquestra o fluxo de busca, alteração de domínio e persistência sem conter regras de cálculo do negócio.
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+---
+
+## 📂 Estrutura do Projeto
+
+```text
+src/main/java/com/brunorafaeldev/sistemavendas
+ ├── domain
+ │    ├── entity       # Entidades, Agregados e Enums (Cliente, Produto, Pedido, ItemPedido, StatusPedido)
+ │    └── repository   # Interfaces dos repositórios
+ ├── application       # Casos de uso / Serviços de aplicação (RealizarVendas)
+ ├── infrastructure    # Implementação dos repositórios em memória
+ └── App.java         # Ponto de entrada e teste do fluxo completo
